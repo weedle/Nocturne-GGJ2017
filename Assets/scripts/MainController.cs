@@ -11,6 +11,9 @@ public class MainController : MonoBehaviour, ControllerIntf {
     private string objectName = "Player";
     private MovementObj obj;
     public GameObject ring;
+    public bool canMove = true;
+    private float cantMoveTimer = 0;
+    private float cantMoveTimerfull = 0.2f;
 
     // Use this for initialization
     void Start()
@@ -23,26 +26,41 @@ public class MainController : MonoBehaviour, ControllerIntf {
     {
         float horizontal = Input.GetAxis("Horizontal");
         float vertical = Input.GetAxis("Vertical");
-        if (vertical != 0)
+        if (canMove)
         {
-            obj.move(vertical);
+            if (vertical != 0)
+            {
+                obj.move(vertical);
+            }
+            else
+            {
+                obj.brake();
+            }
+
+            if (horizontal != 0)
+            {
+                obj.rotate(horizontal);
+            }
         }
         else
         {
-            obj.brake();
+            cantMoveTimer += Time.deltaTime;
+            if(cantMoveTimer >= cantMoveTimerfull)
+            {
+                canMove = true;
+                cantMoveTimer = 0;
+            }
         }
-
-        if (horizontal != 0)
-        {
-            obj.rotate(horizontal);
-        }
-
         if(Input.GetButtonDown("Fire1"))
         {
-            print("Created ring!");
             GameObject obj = (GameObject)Instantiate(ring, transform.position, Quaternion.Euler(0, 0, 0));
             obj.transform.localScale *= 0.5f;
         }
+    }
+
+    public void setCantMove()
+    {
+        canMove = false;
     }
 
     // The player is of the Player faction
@@ -85,5 +103,11 @@ public class MainController : MonoBehaviour, ControllerIntf {
     void ControllerIntf.unpause()
     {
         throw new NotImplementedException();
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        setCantMove();
+        GetComponent<Rigidbody2D>().velocity *= -0.2f;
     }
 }

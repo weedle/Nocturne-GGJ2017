@@ -10,6 +10,9 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private MovementObj obj;
     private GameObject target;
     private float chaseDistance = 1f;
+    private float pulseTimer = 0;
+    private float pulseTimerMax = 1.2f;
+    private bool pulseFound = false;
 
     // Use this for initialization
     void Start()
@@ -22,17 +25,42 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     // Update is called once per frame
     void Update()
     {
-        GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
-        if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
+        if (!pulseFound)
         {
-            target = potentialTarget;
-            turnTowardsEnemy();
-            obj.move(1);
+            GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
+            if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
+            {
+                target = potentialTarget;
+                turnTowardsEnemy();
+                obj.move(1);
+            }
+            else
+            {
+                target = null;
+                obj.brake();
+            }
         }
         else
         {
-            target = null;
-            obj.brake();
+            pulseTimer += Time.deltaTime;
+            if (pulseTimer >= pulseTimerMax)
+            {
+                pulseFound = false;
+                pulseTimer = 0;
+                target = null;
+            }
+            GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
+            if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 2*chaseDistance)
+            {
+                target = potentialTarget;
+                turnTowardsEnemy();
+                obj.move(1);
+            }
+            else
+            {
+                target = null;
+                obj.brake();
+            }
         }
     }
 
@@ -95,5 +123,10 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     void ControllerIntf.unpause()
     {
         throw new NotImplementedException();
+    }
+
+    public void setPulse()
+    {
+        pulseFound = true;
     }
 }

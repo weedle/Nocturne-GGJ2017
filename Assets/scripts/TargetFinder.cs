@@ -5,7 +5,7 @@ using System;
 // TargetFinder for this project finds us a nearby Light Emitter
 public class TargetFinder : MonoBehaviour {
 
-    private GameObject GetClosestLight()
+    public GameObject GetClosestLight()
     {
         GameObject closest = null;
             GameObject[] list = GameObject.FindGameObjectsWithTag("LightEmitter");
@@ -21,6 +21,26 @@ public class TargetFinder : MonoBehaviour {
                         closest = obj;
                     }
             }
+        if (gameObject.Equals(closest)) return null;
+        return closest;
+    }
+
+    public GameObject GetClosestEnemy()
+    {
+        GameObject closest = null;
+        GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
+        foreach (GameObject obj in list)
+        {
+            if (closest == null || !gameObject.Equals(obj))
+                closest = obj;
+
+            if (closest)
+                if (Vector3.Distance(transform.position, obj.transform.position) <=
+                    Vector3.Distance(transform.position, closest.transform.position))
+                {
+                    closest = obj;
+                }
+        }
         if (gameObject.Equals(closest)) return null;
         return closest;
     }
