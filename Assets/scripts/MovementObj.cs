@@ -5,8 +5,8 @@ using System.Collections;
 // Eg, if asked to "move" by the Controller of this entity, this 
 // script will take that command and move the entity accordingly
 public class MovementObj : MonoBehaviour {
-    public float moveSpeed = 1;
-    public float rotationSpeed = 5;
+    private float moveSpeed = 1;
+    private float rotationSpeed = 5;
 
     // Use this for initialization
     void Start () {
@@ -66,5 +66,15 @@ public class MovementObj : MonoBehaviour {
     public void setTrigger(bool isTrigger)
     {
         gameObject.GetComponent<BoxCollider2D>().isTrigger = isTrigger;
+    }
+
+    public void setMovementSpeed(float newSpeed)
+    {
+        moveSpeed = newSpeed;
+    }
+
+    public void setRotationSpeed(float newSpeed)
+    {
+        rotationSpeed = newSpeed;
     }
 }

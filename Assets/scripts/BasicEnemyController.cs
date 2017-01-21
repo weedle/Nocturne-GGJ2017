@@ -16,11 +16,17 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private float lightTimer = 0;
     private float lightTimerMax = 0.2f;
     private bool lightFound = false;
+    public float moveSpeed;
+    public float rotationSpeed;
+    public float boostedMoveSpeed;
+    public float boostedRotationSpeed;
 
     // Use this for initialization
     void Start()
     {
         obj = GetComponent<MovementObj>();
+        obj.setMovementSpeed(moveSpeed);
+        obj.setRotationSpeed(rotationSpeed);
         obj.setTrigger(true);
         target = null;
         gameObject.AddComponent<TargetFinder>();
@@ -73,8 +79,11 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
             drawPlus();
             if (lightTimer >= lightTimerMax)
             {
+                obj.setMovementSpeed(moveSpeed);
+                obj.setRotationSpeed(rotationSpeed);
                 lightTimer = 0;
                 lightFound = false;
+                GetComponent<SpriteRenderer>().color = Color.black;
             }
             /*
             Light light = GetComponent<Light>();
@@ -161,6 +170,9 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     {
 
         lightFound = true;
+        GetComponent<SpriteRenderer>().color = Color.cyan;
+        obj.setMovementSpeed(boostedMoveSpeed);
+        obj.setRotationSpeed(boostedRotationSpeed);
         /*
         Light light = GetComponent<Light>();
         light.enabled = true;

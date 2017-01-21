@@ -21,15 +21,10 @@ public class ringObject : MonoBehaviour {
             DestroyObject(gameObject);
         if(i >= lifetime/2)
         {
-            TargetFinder finder = null;
-            finder = GetComponent<TargetFinder>();
-            if(finder != null)
+            GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject obj in list)
             {
-                GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
-                foreach (GameObject obj in list)
-                {
-                    obj.GetComponent<BasicEnemyController>().setPulse();
-                }
+                obj.GetComponent<BasicEnemyController>().setPulse();
             }
         }
     }
