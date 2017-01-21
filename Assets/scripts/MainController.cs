@@ -16,11 +16,15 @@ public class MainController : MonoBehaviour, ControllerIntf {
     private float cantMoveTimer = 0;
     private float cantMoveTimerfull = 0.2f;
     public float projectileSpeed = 0.2f;
+    public float moveSpeed;
+    public float rotationSpeed;
 
     // Use this for initialization
     void Start()
     {
         obj = GetComponent<MovementObj>();
+        obj.setMovementSpeed(moveSpeed);
+        obj.setRotationSpeed(rotationSpeed);
     }
 
     // Update is called once per frame
@@ -74,6 +78,12 @@ public class MainController : MonoBehaviour, ControllerIntf {
             proj.velocity = temp;
 
             proj.transform.position = gameObject.transform.position;
+
+            GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (GameObject obj in list)
+            {
+                obj.GetComponent<BasicEnemyController>().setPulse();
+            }
         }
     }
 
