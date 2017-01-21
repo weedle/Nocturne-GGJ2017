@@ -62,4 +62,9 @@ public class MovementObj : MonoBehaviour {
     {
         return (transform.rotation.eulerAngles.z + 90) * Mathf.PI / 180;
     }
+
+    public void setTrigger(bool isTrigger)
+    {
+        gameObject.GetComponent<BoxCollider2D>().isTrigger = isTrigger;
+    }
 }

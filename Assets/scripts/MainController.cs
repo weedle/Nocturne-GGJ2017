@@ -11,9 +11,11 @@ public class MainController : MonoBehaviour, ControllerIntf {
     private string objectName = "Player";
     private MovementObj obj;
     public GameObject ring;
+    public GameObject laser;
     public bool canMove = true;
     private float cantMoveTimer = 0;
     private float cantMoveTimerfull = 0.2f;
+    public float projectileSpeed = 0.2f;
 
     // Use this for initialization
     void Start()
@@ -55,6 +57,21 @@ public class MainController : MonoBehaviour, ControllerIntf {
         {
             GameObject obj = (GameObject)Instantiate(ring, transform.position, Quaternion.Euler(0, 0, 0));
             obj.transform.localScale *= 0.5f;
+        }
+        if(Input.GetButtonDown("Fire2"))
+        {
+            Vector3 vec;
+            Vector3 temp;
+            Rigidbody2D proj;
+            vec = new Vector3(0, (float)0.25, 0);
+            vec = transform.rotation * vec;
+            temp = new Vector3(transform.position.x, transform.position.y);
+            proj = (Rigidbody2D)Instantiate(laser.GetComponent<Rigidbody2D>(),
+                temp + vec, transform.rotation);
+            temp = new Vector3(projectileSpeed *
+                (vec.x), projectileSpeed *
+                (vec.y), 0);
+            proj.velocity = temp;
         }
     }
 

@@ -13,11 +13,15 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private float pulseTimer = 0;
     private float pulseTimerMax = 1.2f;
     private bool pulseFound = false;
+    private float lightTimer = 0;
+    private float lightTimerMax = 0.2f;
+    private bool lightFound = false;
 
     // Use this for initialization
     void Start()
     {
         obj = GetComponent<MovementObj>();
+        obj.setTrigger(true);
         target = null;
         gameObject.AddComponent<TargetFinder>();
     }
@@ -61,6 +65,28 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 target = null;
                 obj.brake();
             }
+        }
+        if(lightFound)
+        {
+            lightTimer += Time.deltaTime;
+            drawPlus();
+            if (lightTimer >= lightTimerMax)
+            {
+                lightTimer = 0;
+                lightFound = false;
+            }
+            /*
+            Light light = GetComponent<Light>();
+            light.color = new Color(light.color.r * (1 - lightTimer / lightTimerMax), light.color.g, light.color.b,
+                                    light.color.g);
+            if(lightTimer >= lightTimerMax)
+            {
+                lightTimer = 0;
+                lightFound = false;
+                light.enabled = false;
+                print("disabled light");
+            }
+            */
         }
     }
 
@@ -128,5 +154,39 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public void setPulse()
     {
         pulseFound = true;
+    }
+
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+
+        lightFound = true;
+        /*
+        Light light = GetComponent<Light>();
+        light.enabled = true;
+        light.color = new Color(10, 0, 0, 10);
+        lightFound = true;
+        */
+    }
+
+    private void drawPlus()
+    {
+        Color flash = Color.red;
+        flash.r -= 0.5f;
+        Vector3 start = transform.position;
+        Vector3 end = transform.position;
+        Vector3 randVariation = UnityEngine.Random.insideUnitCircle * 0.02f;
+        float width = 10f;
+        start += randVariation;
+        end += randVariation;
+        start.x -= width;
+        end.x += width;
+        NocturneDefinitions.DrawLine(start, end, flash);
+        start = transform.position;
+        end = transform.position;
+        start += randVariation;
+        end += randVariation;
+        start.y -= width;
+        end.y += width;
+        NocturneDefinitions.DrawLine(start, end, flash);
     }
 }

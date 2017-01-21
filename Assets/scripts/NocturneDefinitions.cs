@@ -31,4 +31,22 @@ public class NocturneDefinitions {
                 return true;
         }
     }
+
+    // Draw a line! Parameters are self-explanatory
+    // IT'S SELF-DOCUMENTING CODE :DDD
+    public static void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.1f, float width = 0.04f)
+    {
+        GameObject myLine = new GameObject();
+        myLine.layer = SortingLayer.GetLayerValueFromName("Default2");
+        myLine.transform.position = start;
+        myLine.AddComponent<LineRenderer>();
+        LineRenderer lr = myLine.GetComponent<LineRenderer>();
+        lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
+        lr.SetColors(color, color);
+        lr.SetWidth(width, width);
+        lr.SetPosition(0, start);
+        lr.SetPosition(1, end);
+        if (duration != 0)
+            GameObject.Destroy(myLine, duration);
+    }
 }
