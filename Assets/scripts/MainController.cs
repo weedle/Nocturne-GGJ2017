@@ -10,6 +10,7 @@ public class MainController : MonoBehaviour, ControllerIntf {
     public bool inactive;
     private string objectName = "Player";
     private MovementObj obj;
+    public GameObject ring;
 
     // Use this for initialization
     void Start()
@@ -34,6 +35,13 @@ public class MainController : MonoBehaviour, ControllerIntf {
         if (horizontal != 0)
         {
             obj.rotate(horizontal);
+        }
+
+        if(Input.GetButtonDown("Fire1"))
+        {
+            print("Created ring!");
+            GameObject obj = (GameObject)Instantiate(ring, transform.position, Quaternion.Euler(0, 0, 0));
+            obj.transform.localScale *= 0.5f;
         }
     }
 

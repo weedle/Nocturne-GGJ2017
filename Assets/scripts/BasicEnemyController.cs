@@ -9,6 +9,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private string objectName = "BasicEnemy";
     private MovementObj obj;
     private GameObject target;
+    private float chaseDistance = 1f;
 
     // Use this for initialization
     void Start()
@@ -21,22 +22,37 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     // Update is called once per frame
     void Update()
     {
-        if (target == null)
+        GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
+        if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
         {
-            GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
-            if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 1)
-            {
-                target = potentialTarget;
-                print(Vector3.Distance(transform.position, potentialTarget.transform.position));
-            }
+            target = potentialTarget;
+            turnTowardsEnemy();
+            obj.move(1);
         }
         else
         {
-            if (Vector3.Distance(transform.position, target.transform.position) > 1)
-            {
-                target = null;
-                print("Lost target...");
-            }
+            target = null;
+            obj.brake();
+        }
+    }
+
+    private void turnTowardsEnemy()
+    {
+        Vector3 diff = target.transform.position - transform.position;
+        //print(diff);
+        float targetAngle = Mathf.Atan(diff.y / diff.x) * 180 / Mathf.PI + 90;
+        if (diff.x > 0)
+            targetAngle = 180 + targetAngle;
+        targetAngle = (int)targetAngle;
+        float objAngle = transform.rotation.eulerAngles.z;
+
+        if (NocturneDefinitions.quickestRotation(objAngle, targetAngle))
+        {
+            obj.rotate(1f);
+        }
+        else
+        {
+            obj.rotate(-1f);
         }
     }
 
