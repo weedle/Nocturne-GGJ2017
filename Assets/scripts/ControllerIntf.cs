@@ -27,5 +27,5 @@ public interface ControllerIntf {
 
     // set the target of the entity
     // will do nothing for the player
-    void setTarget();
+    void setTarget(GameObject newTarget);
 }

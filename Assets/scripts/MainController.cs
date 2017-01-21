@@ -63,7 +63,7 @@ public class MainController : MonoBehaviour, ControllerIntf {
     }
 
     // the player cannot have a set target
-    void ControllerIntf.setTarget()
+    void ControllerIntf.setTarget(GameObject newTarget)
     {
         return;
     }
