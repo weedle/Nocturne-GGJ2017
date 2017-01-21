@@ -12,6 +12,7 @@ public class MovementObj : MonoBehaviour {
     void Start () {
         gameObject.AddComponent<Rigidbody2D>();
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
+        gameObject.AddComponent<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
