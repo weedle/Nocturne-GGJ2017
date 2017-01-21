@@ -32,6 +32,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         if (!pulseFound)
         {
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
+            //print(potentialTarget.name + " " + Vector3.Distance(transform.position, potentialTarget.transform.position));
             if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
             {
                 target = potentialTarget;

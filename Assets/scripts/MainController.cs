@@ -61,17 +61,19 @@ public class MainController : MonoBehaviour, ControllerIntf {
         if(Input.GetButtonDown("Fire2"))
         {
             Vector3 vec;
-            Vector3 temp;
             Rigidbody2D proj;
-            vec = new Vector3(0, (float)0.25, 0);
+            Vector3 temp;
+            vec = new Vector3(0, (float)0.2, 0);
             vec = transform.rotation * vec;
-            temp = new Vector3(transform.position.x, transform.position.y);
             proj = (Rigidbody2D)Instantiate(laser.GetComponent<Rigidbody2D>(),
-                temp + vec, transform.rotation);
+                transform.position + vec, transform.rotation);
+            proj.transform.parent = transform.parent;
             temp = new Vector3(projectileSpeed *
                 (vec.x), projectileSpeed *
                 (vec.y), 0);
             proj.velocity = temp;
+
+            proj.transform.position = gameObject.transform.position;
         }
     }
 
