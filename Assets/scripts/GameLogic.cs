@@ -22,8 +22,7 @@ public class GameLogic : MonoBehaviour {
 	void Update () {
 		if(gotCollectible1 && gotCollectible2 && gotCollectible3)
         {
-            print("yay you win! now we crash");
-            GetComponent<RigidbodyConstraints2D>().ToString();
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
         }
 	}
 

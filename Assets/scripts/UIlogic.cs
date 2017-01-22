@@ -4,8 +4,8 @@ using UnityEditor.SceneManagement;
 
 public class UIlogic : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start () {
 		
 	}
 	
