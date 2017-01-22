@@ -10,8 +10,6 @@ public class GameLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		print ("Screen height: " + Screen.height);
-		print ("Screen width: " + Screen.width);
 		switchVisible ();
 		button.onClick.AddListener (switchVisible);
 	}

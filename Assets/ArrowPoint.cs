@@ -16,7 +16,6 @@ public class ArrowPoint : MonoBehaviour {
         this.transform.rotation = Quaternion.Euler(0,0,-90 + Mathf.Atan2(diff.y, diff.x) * 180 / Mathf.PI);
         Color newColor = color;
         float dist = Vector3.Distance(target.transform.position, transform.position);
-        print(dist);
         if (dist > 8f)
         {
             newColor.a = 0.1f;
