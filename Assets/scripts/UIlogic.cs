@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 using System.Collections;
-using UnityEditor.SceneManagement;
+using UnityEngine.SceneManagement;
 
 public class UIlogic : MonoBehaviour {
 
@@ -15,6 +15,6 @@ public class UIlogic : MonoBehaviour {
 	}
 
 	public void loadScene(int index) {
-		UnityEditor.SceneManagement.EditorSceneManager.LoadScene (index);
+		UnityEngine.SceneManagement.SceneManager.LoadScene (index);
 	}
 }
