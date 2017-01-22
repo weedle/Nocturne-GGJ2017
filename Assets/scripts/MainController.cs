@@ -11,13 +11,11 @@ public class MainController : MonoBehaviour, ControllerIntf {
     public bool inactive;
     private string objectName = "Player";
     private MovementObj obj;
-    public GameObject ring;
     public GameObject laser;
     public GameObject sparkle;
     public bool canMove = true;
     private float cantMoveTimer = 0;
     private float cantMoveTimerfull = 0.2f;
-    public float projectileSpeed = 0.2f;
     public float moveSpeed;
     public float rotationSpeed;
     private float sparkleTimer = 0;
@@ -74,13 +72,11 @@ public class MainController : MonoBehaviour, ControllerIntf {
         }
         if(Input.GetButtonDown("Fire1"))
         {
-            Vector3 pos = transform.position;
-            GameObject obj = (GameObject)Instantiate(ring, 
-                pos, Quaternion.Euler(0, 0, 0));
-            obj.transform.localScale *= 0.5f;
+            GetComponent<FiringModuleIntf>().fire();
         }
         if(Input.GetButtonDown("Fire2"))
         {
+            /*
             Vector3 vec;
             Rigidbody2D proj;
             Vector3 temp;
@@ -104,6 +100,7 @@ public class MainController : MonoBehaviour, ControllerIntf {
 
             //GameObject.Find("Main Camera").GetComponent<Camera>()
             //    .GetComponent<Bloom>().bloomIntensity *= 0.9f;
+            */
         }
     }
 

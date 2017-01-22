@@ -2,24 +2,38 @@
 using System.Collections;
 
 public class ringObject : MonoBehaviour {
-    float i = 0;
+    private float lifetimeInitial;
     public float lifetime;
+    public float lifetimeTimer;
     public float rate;
 	// Use this for initialization
 	void Start () {
+        lifetimeInitial = lifetime;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        i++;
         transform.localScale *= rate;
-        if (i >= lifetime)
+        lifetimeTimer += Time.deltaTime;
+        if (lifetimeTimer >= 0.02)
         {
-            GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, Color.clear, i/200);
+            lifetimeTimer = 0;
+            lifetime--;
         }
-        if(i >= lifetime+20)
-            DestroyObject(gameObject);
-        if(i >= 3*lifetime/4)
+        if (lifetime <= 0)
+        {
+            Destroy(gameObject);
+        }
+        else
+        {
+            lifetime--;
+        }
+
+        if(lifetime <= lifetimeInitial/2)
+        {
+            GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, Color.clear, lifetime/lifetimeInitial);
+        }
+        if(lifetime <= lifetimeInitial/4)
         {
             GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject obj in list)
