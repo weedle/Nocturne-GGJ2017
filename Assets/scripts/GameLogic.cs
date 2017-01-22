@@ -6,11 +6,12 @@ public class GameLogic : MonoBehaviour {
 	public Button button;
 	public Color testColor = Color.white;
 	public Color gameColor = Color.black;
-	private bool visible;
+	private bool visible = true;
 
 	// Use this for initialization
 	void Start () {
-		visible = true;
+		print ("Screen height: " + Screen.height);
+		print ("Screen width: " + Screen.width);
 		switchVisible ();
 		button.onClick.AddListener (switchVisible);
 	}

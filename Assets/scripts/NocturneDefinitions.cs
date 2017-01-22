@@ -49,4 +49,16 @@ public class NocturneDefinitions {
         if (duration != 0)
             GameObject.Destroy(myLine, duration);
     }
+
+	// Use the DrawLine method to draw a square
+	public static void DrawSquare(Vector3 bottomLeft, Vector3 topRight, Color color, float duration = 0.2f, float width = 0.075f)
+	{
+		Vector3 bottomRight = new Vector3(topRight.x, bottomLeft.y);
+		Vector3 topLeft = new Vector3(bottomLeft.x, topRight.y);
+		NocturneDefinitions.DrawLine(bottomLeft, bottomRight, color, duration, width);
+		NocturneDefinitions.DrawLine(bottomLeft, topLeft, color, duration, width);
+		NocturneDefinitions.DrawLine(topRight, bottomRight, color, duration, width);
+		NocturneDefinitions.DrawLine(topRight, topLeft, color, duration, width);
+	}
+
 }
