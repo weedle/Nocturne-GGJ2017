@@ -17,4 +17,15 @@ public class PewPewLaser : Particle
             return;
         handleLifetime();
     }
+
+    public new void OnTriggerEnter2D(Collider2D col)
+    {
+        if (col.gameObject.name == "Nwall" ||
+            col.gameObject.name == "Ewall" ||
+            col.gameObject.name == "Wwall" ||
+            col.gameObject.name == "Swall")
+        {
+            Destroy(gameObject);
+        }
+    }
 }

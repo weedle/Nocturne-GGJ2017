@@ -1,0 +1,55 @@
+<DialogueCollection name="Cutter">
+	<Dialogues>
+		<Dialogue
+			level = "0"
+			
+			DialogueRegular = "Hey, the name's Cutter. /I'm a Merchant, I sell goods I have acquired through legitimate and definitely not illegal means. I am nothing but an innocent merchant and businessman- oh you don't even care, do you. Yeah, so I murder pirates and sell their goods for credits. /It's a living."
+
+			DialogueYes = "Aw yes gimme those sweet credits yessssssss."
+
+			DialogueNo = "Yeah well come back if you change your mind."
+			
+			CallbackType = "1"
+			
+			Callback = "print">
+		</Dialogue>
+		<Dialogue
+			level = "0"
+			
+			DialogueRegular = "I'm glad you came back! It, uh, it gets pretty lonely out here in the vast, unforgiving plains of outer space."
+			
+			DialogueYes = ""
+
+			DialogueNo = ""
+			
+			CallbackType = "0"
+			
+			Callback = "">>
+		</Dialogue>
+		<Dialogue
+			level = "0"
+			
+			DialogueRegular = "Oh man I gotta tell you this great story I read the other day, it's about this crazy assassin hiding amongst a group of adventurers, and how they join this fight between like super skynet disguised as an old man versus some crazy evil tech empire rebellion group that's from like the pre-war days before super skynet guy razed the earth down and stuff."
+			DialogueYes = ""
+
+			DialogueNo = ""
+			
+			CallbackType = "0"
+			
+			Callback = "">>
+		</Dialogue>
+		<Dialogue
+			level = "1"
+			
+			DialogueRegular = "WELCOME TO LEVEL 2 BITCHES"
+
+			DialogueYes = ""
+
+			DialogueNo = ""
+			
+			CallbackType = "0"
+			
+			Callback = "">>
+		</Dialogue>
+	</Dialogues>
+</DialogueCollection>

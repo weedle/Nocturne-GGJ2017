@@ -29,6 +29,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     // Use this for initialization
     void Start()
     {
+        chaseDistanceNormal = chaseDistance;
         obj = GetComponent<MovementObj>();
         gameObject.AddComponent<TargetFinder>();
         obj.setMovementSpeed(moveSpeed);

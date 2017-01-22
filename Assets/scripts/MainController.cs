@@ -31,6 +31,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
         obj = GetComponent<MovementObj>();
         obj.setMovementSpeed(moveSpeed);
         obj.setRotationSpeed(rotationSpeed);
+        GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+            .playMusic();
     }
 
     // Update is called once per frame
@@ -46,13 +48,16 @@ public class MainController : MonoBehaviour, ControllerIntf {
                 sparkleTimer += Time.deltaTime;
                 if (sparkleTimer >= sparkleTimerMax)
                 {
-                    sparkleTimer = 0;
-                    Vector3 pos = transform.position;
-                    float randRange = 0.15f;
-                    Vector3 randVar = new Vector3(UnityEngine.Random.Range(-randRange, randRange),
-                                                UnityEngine.Random.Range(-randRange, randRange));
-                    GameObject spark = (GameObject)Instantiate(sparkle, pos + randVar, Quaternion.Euler(0, 0, 0));
-                    spark.GetComponent<Sparkle>().spinrate = UnityEngine.Random.Range(2, 8);
+                    for (int i = 0; i <= Mathf.FloorToInt(UnityEngine.Random.Range(0.5f,1.5f)); i++)
+                    {
+                        sparkleTimer = 0;
+                        Vector3 pos = transform.position;
+                        float randRange = 0.15f;
+                        Vector3 randVar = new Vector3(UnityEngine.Random.Range(-randRange, randRange),
+                                                    UnityEngine.Random.Range(-randRange, randRange));
+                        GameObject spark = (GameObject)Instantiate(sparkle, pos + randVar, Quaternion.Euler(0, 0, 0));
+                        spark.GetComponent<Sparkle>().spinrate = UnityEngine.Random.Range(2, 8);
+                    }
                 }
             }
             else
@@ -76,10 +81,20 @@ public class MainController : MonoBehaviour, ControllerIntf {
         }
         if(Input.GetButtonDown("Fire1"))
         {
-            GetComponent<FiringModuleIntf>().fire();
+            FiringModuleIntf mod = GetComponent<RingFiringModule>();
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                .fireRing();
+            mod.fire();
         }
         if(Input.GetButtonDown("Fire2"))
         {
+            //DialogueManager dMan = GameObject.Find("GameLogic").
+            //    GetComponent<DialogueManager>();
+            //dMan.setCharacter(new CutterTheMerchant());
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                .fireLaserSound();
+            FiringModuleIntf mod = GetComponent<LaserFiringModule>();
+            mod.fire();
             /*
             Vector3 vec;
             Rigidbody2D proj;
