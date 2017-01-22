@@ -10,8 +10,9 @@ public class GameLogic : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		visible = false;
-		button.onClick.AddListener (makeVisible);
+		visible = true;
+		switchVisible ();
+		button.onClick.AddListener (switchVisible);
 	}
 	
 	// Update is called once per frame
@@ -19,18 +20,22 @@ public class GameLogic : MonoBehaviour {
 		
 	}
 
-	public void makeVisible() {
+
+	public void switchVisible() {
 		GameObject[] wallList = GameObject.FindGameObjectsWithTag ("Wall");
 
 		foreach (GameObject wall in wallList) {
 			SpriteRenderer thisWall = wall.GetComponent<SpriteRenderer> ();
-			if (visible) {
-				thisWall.color = gameColor;
-			} else {
+			if (!visible) {
 				thisWall.color = testColor;
+			} else {
+				thisWall.color = gameColor;
 			}
 		}
 
 		visible = !visible;
 	}
+
+
+
 }
