@@ -31,6 +31,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
         obj = GetComponent<MovementObj>();
         obj.setMovementSpeed(moveSpeed);
         obj.setRotationSpeed(rotationSpeed);
+        GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+            .playMusic();
     }
 
     // Update is called once per frame
@@ -80,6 +82,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
         if(Input.GetButtonDown("Fire1"))
         {
             FiringModuleIntf mod = GetComponent<RingFiringModule>();
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                .fireRing();
             mod.fire();
         }
         if(Input.GetButtonDown("Fire2"))
@@ -87,6 +91,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
             //DialogueManager dMan = GameObject.Find("GameLogic").
             //    GetComponent<DialogueManager>();
             //dMan.setCharacter(new CutterTheMerchant());
+            GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                .fireLaserSound();
             FiringModuleIntf mod = GetComponent<LaserFiringModule>();
             mod.fire();
             /*
