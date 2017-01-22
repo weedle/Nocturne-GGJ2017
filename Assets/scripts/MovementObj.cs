@@ -9,11 +9,12 @@ public class MovementObj : MonoBehaviour {
     private float rotationSpeed = 5;
 
     // Use this for initialization
-    void Start () {
+    void Start ()
+    {
+        gameObject.AddComponent<BoxCollider2D>();
         gameObject.AddComponent<Rigidbody2D>();
         gameObject.GetComponent<Rigidbody2D>().gravityScale = 0;
         gameObject.GetComponent<Rigidbody2D>().freezeRotation = true;
-        gameObject.AddComponent<BoxCollider2D>();
 	}
 	
 	// Update is called once per frame
@@ -67,6 +68,8 @@ public class MovementObj : MonoBehaviour {
 
     public void setTrigger(bool isTrigger)
     {
+        if(gameObject.GetComponent<BoxCollider2D>() == null)
+            gameObject.AddComponent<BoxCollider2D>();
         gameObject.GetComponent<BoxCollider2D>().isTrigger = isTrigger;
     }
 

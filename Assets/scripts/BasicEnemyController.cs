@@ -28,11 +28,11 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     void Start()
     {
         obj = GetComponent<MovementObj>();
+        gameObject.AddComponent<TargetFinder>();
         obj.setMovementSpeed(moveSpeed);
         obj.setRotationSpeed(rotationSpeed);
         obj.setTrigger(true);
         target = null;
-        gameObject.AddComponent<TargetFinder>();
         regularColor = GetComponent<SpriteRenderer>().color;
     }
 

@@ -20,10 +20,15 @@ public class MainController : MonoBehaviour, ControllerIntf {
     public float rotationSpeed;
     private float sparkleTimer = 0;
     private float sparkleTimerMax = 0.1f;
+    private float deathTimer = 0;
+    private float deathTimerFull = 1f;
+    private bool isDying = false;
+    private Color regularColor;
 
     // Use this for initialization
     void Start()
     {
+        regularColor = GetComponent<SpriteRenderer>().color;
         obj = GetComponent<MovementObj>();
         obj.setMovementSpeed(moveSpeed);
         obj.setRotationSpeed(rotationSpeed);
@@ -102,6 +107,15 @@ public class MainController : MonoBehaviour, ControllerIntf {
             //    .GetComponent<Bloom>().bloomIntensity *= 0.9f;
             */
         }
+
+        if(isDying)
+        {
+            deathTimer += Time.deltaTime;
+            GetComponent<SpriteRenderer>().color = regularColor * (1f - deathTimer / deathTimerFull);
+            GameObject.Find("Main Camera").GetComponent<UnityStandardAssets.ImageEffects.Bloom>().bloomIntensity =  (1f - deathTimer / deathTimerFull);
+        }
+        if (deathTimer >= deathTimerFull)
+            UnityEngine.SceneManagement.SceneManager.LoadScene(0);
     }
 
     public void setCantMove()
@@ -155,5 +169,11 @@ public class MainController : MonoBehaviour, ControllerIntf {
     {
         setCantMove();
         GetComponent<Rigidbody2D>().velocity *= -0.2f;
+
+        if(col.gameObject.tag == "Enemy")
+        {
+            isDying = true;
+            canMove = false;
+        }
     }
 }
