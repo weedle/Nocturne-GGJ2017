@@ -8,15 +8,23 @@ public class GameLogic : MonoBehaviour {
 	public Color gameColor = Color.black;
 	private bool visible = true;
 
-	// Use this for initialization
-	void Start () {
+    public bool gotCollectible1 = false;
+    public bool gotCollectible2 = false;
+    public bool gotCollectible3 = false;
+
+    // Use this for initialization
+    void Start () {
 		switchVisible ();
 		button.onClick.AddListener (switchVisible);
 	}
 	
 	// Update is called once per frame
 	void Update () {
-		
+		if(gotCollectible1 && gotCollectible2 && gotCollectible3)
+        {
+            print("yay you win! now we crash");
+            GetComponent<RigidbodyConstraints2D>().ToString();
+        }
 	}
 
 

@@ -15,7 +15,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private float pulseTimerMax = 1.2f;
     private bool pulseFound = false;
     private float lightTimer = 0;
-    private float lightTimerMax = 0.2f;
+    private float lightTimerMax = 0.1f;
     private bool lightFound = false;
     public float moveSpeed;
     public float rotationSpeed;

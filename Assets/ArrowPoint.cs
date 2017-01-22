@@ -12,6 +12,11 @@ public class ArrowPoint : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         //NocturneDefinitions.DrawLine(transform.position, target.transform.position, Color.green, 0.02f, 0.01f);
+        if(target == null)
+        {
+            Destroy(this.gameObject);
+            return;
+        }
         Vector3 diff = target.transform.position - transform.position;
         this.transform.rotation = Quaternion.Euler(0,0,-90 + Mathf.Atan2(diff.y, diff.x) * 180 / Mathf.PI);
         Color newColor = color;

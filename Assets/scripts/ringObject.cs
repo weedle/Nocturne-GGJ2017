@@ -33,16 +33,23 @@ public class ringObject : MonoBehaviour {
         {
             GetComponent<SpriteRenderer>().color = Color.Lerp(GetComponent<SpriteRenderer>().color, Color.clear, lifetime/lifetimeInitial);
         }
-        if(lifetime <= lifetimeInitial/4)
+        if (lifetime <= lifetimeInitial / 4)
         {
-            GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
-            foreach (GameObject obj in list)
+            GameObject[] list = GameObject.FindGameObjectsWithTag("BasicEnemy");
+            alarmEnemies(list);
+            list = GameObject.FindGameObjectsWithTag("HunterEnemy");
+            alarmEnemies(list);
+        }
+    }
+
+    void alarmEnemies(GameObject[] enemies)
+    {
+        foreach (GameObject obj in enemies)
+        {
+            obj.GetComponent<BasicEnemyController>().setPulse();
+            if (Vector3.Distance(transform.position, obj.transform.position) <= 4f)
             {
-                obj.GetComponent<BasicEnemyController>().setPulse();
-                if(Vector3.Distance(transform.position, obj.transform.position) <= 1.4f)
-                {
-                    obj.GetComponent<BasicEnemyController>().boost();
-                }
+                obj.GetComponent<BasicEnemyController>().boost();
             }
         }
     }

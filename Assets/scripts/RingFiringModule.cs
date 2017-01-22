@@ -5,7 +5,6 @@ using System;
 public class RingFiringModule : MonoBehaviour, FiringModuleIntf
 {
     private GameObject ring;
-    public float projectileSpeed = 0.2f;
 
     void FiringModuleIntf.fire()
     {
