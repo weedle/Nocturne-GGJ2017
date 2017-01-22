@@ -10,6 +10,8 @@ public class Tracking : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
+        if (target == null)
+            return;
         gameObject.transform.position = new Vector3(target.transform.position.x,
             target.transform.position.y, gameObject.transform.position.z);
 	}

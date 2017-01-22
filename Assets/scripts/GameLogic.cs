@@ -34,7 +34,23 @@ public class GameLogic : MonoBehaviour {
 			}
 		}
 
-		visible = !visible;
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
+
+        foreach (GameObject enemy in enemyList)
+        {
+            SpriteRenderer thisEnemy = enemy.GetComponent<SpriteRenderer>();
+            if (!visible)
+            {
+                thisEnemy.color = testColor;
+                enemy.GetComponent<BasicEnemyController>().regularColor = testColor;
+            }
+            else {
+                thisEnemy.color = gameColor;
+                enemy.GetComponent<BasicEnemyController>().regularColor = gameColor;
+            }
+        }
+
+        visible = !visible;
 	}
 
 

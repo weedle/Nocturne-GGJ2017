@@ -19,12 +19,16 @@ public class ringObject : MonoBehaviour {
         }
         if(i >= lifetime+20)
             DestroyObject(gameObject);
-        if(i >= lifetime/2)
+        if(i >= 3*lifetime/4)
         {
             GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
             foreach (GameObject obj in list)
             {
                 obj.GetComponent<BasicEnemyController>().setPulse();
+                if(Vector3.Distance(transform.position, obj.transform.position) <= 1.4f)
+                {
+                    obj.GetComponent<BasicEnemyController>().boost();
+                }
             }
         }
     }

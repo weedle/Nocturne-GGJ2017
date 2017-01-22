@@ -9,7 +9,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private string objectName = "BasicEnemy";
     private MovementObj obj;
     private GameObject target;
-    private float chaseDistance = 1f;
+    private float chaseDistance = 0.8f;
+    private float chaseDistanceNormal = 0.8f;
     private float pulseTimer = 0;
     private float pulseTimerMax = 1.2f;
     private bool pulseFound = false;
@@ -20,6 +21,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public float rotationSpeed;
     public float boostedMoveSpeed;
     public float boostedRotationSpeed;
+    public Color highlightColor;
+    public Color regularColor;
 
     // Use this for initialization
     void Start()
@@ -30,6 +33,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         obj.setTrigger(true);
         target = null;
         gameObject.AddComponent<TargetFinder>();
+        regularColor = GetComponent<SpriteRenderer>().color;
     }
 
     // Update is called once per frame
@@ -39,6 +43,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         {
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
             //print(potentialTarget.name + " " + Vector3.Distance(transform.position, potentialTarget.transform.position));
+            if (potentialTarget == null)
+                return;
             if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
             {
                 target = potentialTarget;
@@ -56,6 +62,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
             pulseTimer += Time.deltaTime;
             if (pulseTimer >= pulseTimerMax)
             {
+                chaseDistance = chaseDistanceNormal;
                 pulseFound = false;
                 pulseTimer = 0;
                 target = null;
@@ -83,7 +90,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 obj.setRotationSpeed(rotationSpeed);
                 lightTimer = 0;
                 lightFound = false;
-                GetComponent<SpriteRenderer>().color = Color.black;
+                GetComponent<SpriteRenderer>().color = regularColor;
             }
             /*
             Light light = GetComponent<Light>();
@@ -164,21 +171,26 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public void setPulse()
     {
         pulseFound = true;
+        chaseDistance *= 1.25f;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
     {
-
-        lightFound = true;
-        GetComponent<SpriteRenderer>().color = Color.cyan;
-        obj.setMovementSpeed(boostedMoveSpeed);
-        obj.setRotationSpeed(boostedRotationSpeed);
+        boost();
         /*
         Light light = GetComponent<Light>();
         light.enabled = true;
         light.color = new Color(10, 0, 0, 10);
         lightFound = true;
         */
+    }
+
+    public void boost()
+    {
+        lightFound = true;
+        GetComponent<SpriteRenderer>().color = highlightColor;
+        obj.setMovementSpeed(boostedMoveSpeed);
+        obj.setRotationSpeed(boostedRotationSpeed);
     }
 
     private void drawPlus()

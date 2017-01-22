@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using System.Collections;
 using System;
+using UnityStandardAssets.ImageEffects;
 
 // Script to accept user input and move a given object appropriately
 // Eg, when you press up or right, this script is what captures that
@@ -12,12 +13,15 @@ public class MainController : MonoBehaviour, ControllerIntf {
     private MovementObj obj;
     public GameObject ring;
     public GameObject laser;
+    public GameObject sparkle;
     public bool canMove = true;
     private float cantMoveTimer = 0;
     private float cantMoveTimerfull = 0.2f;
     public float projectileSpeed = 0.2f;
     public float moveSpeed;
     public float rotationSpeed;
+    private float sparkleTimer = 0;
+    private float sparkleTimerMax = 0.1f;
 
     // Use this for initialization
     void Start()
@@ -37,6 +41,17 @@ public class MainController : MonoBehaviour, ControllerIntf {
             if (vertical != 0)
             {
                 obj.move(vertical);
+                sparkleTimer += Time.deltaTime;
+                if (sparkleTimer >= sparkleTimerMax)
+                {
+                    sparkleTimer = 0;
+                    Vector3 pos = transform.position;
+                    float randRange = 0.15f;
+                    Vector3 randVar = new Vector3(UnityEngine.Random.Range(-randRange, randRange),
+                                                UnityEngine.Random.Range(-randRange, randRange));
+                    GameObject spark = (GameObject)Instantiate(sparkle, pos + randVar, Quaternion.Euler(0, 0, 0));
+                    spark.GetComponent<Sparkle>().spinrate = UnityEngine.Random.Range(2, 8);
+                }
             }
             else
             {
@@ -59,7 +74,9 @@ public class MainController : MonoBehaviour, ControllerIntf {
         }
         if(Input.GetButtonDown("Fire1"))
         {
-            GameObject obj = (GameObject)Instantiate(ring, transform.position, Quaternion.Euler(0, 0, 0));
+            Vector3 pos = transform.position;
+            GameObject obj = (GameObject)Instantiate(ring, 
+                pos, Quaternion.Euler(0, 0, 0));
             obj.transform.localScale *= 0.5f;
         }
         if(Input.GetButtonDown("Fire2"))
@@ -84,6 +101,9 @@ public class MainController : MonoBehaviour, ControllerIntf {
             {
                 obj.GetComponent<BasicEnemyController>().setPulse();
             }
+
+            //GameObject.Find("Main Camera").GetComponent<Camera>()
+            //    .GetComponent<Bloom>().bloomIntensity *= 0.9f;
         }
     }
 

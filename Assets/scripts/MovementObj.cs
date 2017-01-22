@@ -36,6 +36,8 @@ public class MovementObj : MonoBehaviour {
             rigidbody.velocity = temp * moveSpeed * (vertical + Mathf.Sign(vertical));
         temp = Vector3.zero;
 
+
+
         /*
         if (vertical > 0)
         {
