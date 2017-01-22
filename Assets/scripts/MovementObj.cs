@@ -36,21 +36,6 @@ public class MovementObj : MonoBehaviour {
         if (vertical != 0)
             rigidbody.velocity = temp * moveSpeed * (vertical + Mathf.Sign(vertical));
         temp = Vector3.zero;
-
-
-
-        /*
-        if (vertical > 0)
-        {
-            GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<Animator>().Play("Active");
-        }
-        else if (vertical < 0)
-        {
-            GetComponent<SpriteRenderer>().enabled = true;
-            GetComponent<Animator>().Play("Reverse");
-        }
-        */
     }
 
     public void rotate(float horizontal)
