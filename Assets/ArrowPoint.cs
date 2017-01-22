@@ -23,11 +23,11 @@ public class ArrowPoint : MonoBehaviour {
         float dist = Vector3.Distance(target.transform.position, transform.position);
         if (dist > 8f)
         {
-            newColor.a = 0.1f;
+            newColor.a = 0.4f;
         }
         else
         {
-            newColor.a = 0.1f + (1 - dist / 8f) * 0.9f;
+            newColor.a = 0.4f + (1 - dist / 8f) * 0.6f;
         }
         setColor(newColor);
 	}
