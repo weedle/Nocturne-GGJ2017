@@ -9,7 +9,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private string objectName = "BasicEnemy";
     private MovementObj obj;
     private GameObject target;
-    private float chaseDistance = 0.8f;
+    public float chaseDistance = 0.8f;
     private float chaseDistanceNormal = 0.8f;
     private float pulseTimer = 0;
     private float pulseTimerMax = 1.2f;
@@ -23,6 +23,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public float boostedRotationSpeed;
     public Color highlightColor;
     public Color regularColor;
+    private float hunterTimer = 0;
+    private float hunterTimerMax = 0.6f;
 
     // Use this for initialization
     void Start()
@@ -104,6 +106,22 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 print("disabled light");
             }
             */
+        }
+        if (gameObject.tag == "HunterEnemy")
+        {
+            if (target == null)
+                return;
+            if (Vector3.Distance(target.transform.position, transform.position) >= chaseDistance)
+            {
+                return;
+            }
+            hunterTimer += Time.deltaTime;
+            if (hunterTimer >= hunterTimerMax)
+            {
+                if (UnityEngine.Random.Range(0, 10) <= 0.01)
+                    boost();
+                hunterTimer = 0;
+            }
         }
     }
 

@@ -34,8 +34,18 @@ public class GameLogic : MonoBehaviour {
 			}
 		}
 
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("BasicEnemy");
+        setColor(enemyList);
 
+
+        enemyList = GameObject.FindGameObjectsWithTag("HunterEnemy");
+        setColor(enemyList);
+
+        visible = !visible;
+	}
+
+    void setColor(GameObject[] enemyList)
+    {
         foreach (GameObject enemy in enemyList)
         {
             SpriteRenderer thisEnemy = enemy.GetComponent<SpriteRenderer>();
@@ -49,10 +59,7 @@ public class GameLogic : MonoBehaviour {
                 enemy.GetComponent<BasicEnemyController>().regularColor = gameColor;
             }
         }
-
-        visible = !visible;
-	}
-
+    }
 
 
 }

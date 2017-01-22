@@ -11,7 +11,6 @@ public class MainController : MonoBehaviour, ControllerIntf {
     public bool inactive;
     private string objectName = "Player";
     private MovementObj obj;
-    public GameObject laser;
     public GameObject sparkle;
     public bool canMove = true;
     private float cantMoveTimer = 0;
@@ -170,7 +169,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
         setCantMove();
         GetComponent<Rigidbody2D>().velocity *= -0.2f;
 
-        if(col.gameObject.tag == "Enemy")
+        if(col.gameObject.tag == "BasicEnemy" ||
+            col.gameObject.tag == "HunterEnemy")
         {
             isDying = true;
             canMove = false;
