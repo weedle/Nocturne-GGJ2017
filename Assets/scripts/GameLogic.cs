@@ -12,11 +12,20 @@ public class GameLogic : MonoBehaviour {
     public bool gotCollectible2 = false;
     public bool gotCollectible3 = false;
 
+    public Color getGameColor()
+    {
+        return gameColor;
+    }
+
     // Use this for initialization
-    void Start () {
-		switchVisible ();
+    void Start ()
+    {
+        switchVisible ();
 		button.onClick.AddListener (switchVisible);
-	}
+        Color camColor = new Color(gameColor.r/2.1f, gameColor.g/2.1f, gameColor.b/2.1f);
+        GameObject.Find("Main Camera").GetComponent<Camera>()
+            .backgroundColor = camColor;
+    }
 	
 	// Update is called once per frame
 	void Update () {

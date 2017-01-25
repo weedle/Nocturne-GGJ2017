@@ -9,10 +9,10 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private string objectName = "BasicEnemy";
     private MovementObj obj;
     private GameObject target;
-    public float chaseDistance = 0.8f;
-    private float chaseDistanceNormal = 0.8f;
+    public float chaseDistance = 1.2f;
+    private float chaseDistanceNormal = 1.2f;
     private float pulseTimer = 0;
-    private float pulseTimerMax = 1.2f;
+    private float pulseTimerMax = 2.0f;
     private bool pulseFound = false;
     private float lightTimer = 0;
     private float lightTimerMax = 0.1f;
@@ -37,6 +37,9 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         obj.setTrigger(true);
         target = null;
         regularColor = GetComponent<SpriteRenderer>().color;
+        GetComponent<SpriteRenderer>().color = GameObject.Find("GameLogic").
+            GetComponent<GameLogic>()
+            .getGameColor();
     }
 
     // Update is called once per frame
@@ -46,18 +49,19 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         {
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
             //print(potentialTarget.name + " " + Vector3.Distance(transform.position, potentialTarget.transform.position));
-            if (potentialTarget == null)
-                return;
-            if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
+            if (potentialTarget != null)
             {
-                target = potentialTarget;
-                turnTowardsEnemy();
-                obj.move(1);
-            }
-            else
-            {
-                target = null;
-                obj.brake();
+                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
+                {
+                    target = potentialTarget;
+                    turnTowardsEnemy();
+                    obj.move(1);
+                }
+                else
+                {
+                    target = null;
+                    obj.brake();
+                }
             }
         }
         else
@@ -71,16 +75,19 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 target = null;
             }
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
-            if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 2*chaseDistance)
+            if (potentialTarget != null)
             {
-                target = potentialTarget;
-                turnTowardsEnemy();
-                obj.move(1);
-            }
-            else
-            {
-                target = null;
-                obj.brake();
+                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 2 * chaseDistance)
+                {
+                    target = potentialTarget;
+                    turnTowardsEnemy();
+                    obj.move(1);
+                }
+                else
+                {
+                    target = null;
+                    obj.brake();
+                }
             }
         }
         if(lightFound)

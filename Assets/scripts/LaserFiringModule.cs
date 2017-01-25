@@ -27,7 +27,7 @@ public class LaserFiringModule : MonoBehaviour, FiringModuleIntf
         proj.transform.position = gameObject.transform.position;
         proj.transform.rotation = gameObject.transform.rotation;
 
-        GameObject[] list = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject[] list = GameObject.FindGameObjectsWithTag("BasicEnemy");
         foreach (GameObject obj in list)
         {
             obj.GetComponent<BasicEnemyController>().setPulse();
