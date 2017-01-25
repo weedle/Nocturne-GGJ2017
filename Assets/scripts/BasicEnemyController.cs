@@ -56,7 +56,6 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 if (Vector3.Distance(transform.position, potentialTarget.transform.position) <=
                     potentialTarget.GetComponent<LightEmitter>().getDistance() * modifier )
                 {
-                    print("turning towards target");
                     target = potentialTarget;
                     turnTowardsEnemy();
                     obj.move(1);
@@ -92,7 +91,6 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 
                     potentialTarget.GetComponent<LightEmitter>().getPulseDistance() * modifier)
                 {
-                    print("turning towards pulsed target");
                     target = potentialTarget;
                     turnTowardsEnemy();
                     obj.move(1);
