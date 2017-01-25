@@ -181,10 +181,34 @@ public class MainController : MonoBehaviour, ControllerIntf {
 
     public void OnTriggerEnter2D(Collider2D col)
     {
+        /*
         setCantMove();
-        GetComponent<Rigidbody2D>().velocity *= -0.2f;
 
-        if(col.gameObject.tag == "BasicEnemy" ||
+        Vector3 vel = GetComponent<Rigidbody2D>().velocity;
+
+        if(col.name == "wallLeftSide" || 
+            col.name == "wallRightSide")
+        {
+            //vel.x *= -0.2f;
+            //GetComponent<Rigidbody2D>().velocity = vel;
+            print(this.transform.rotation.eulerAngles.z);
+            Vector3 thisAngle = this.transform.rotation.eulerAngles;
+            float newZ = 360 - thisAngle.z;
+            this.transform.rotation = Quaternion.Euler(0,0,newZ);
+        }
+
+        if (col.name == "wallUpperSide" ||
+            col.name == "wallLowerSide")
+        {
+            //vel.y *= -0.2f;
+            //GetComponent<Rigidbody2D>().velocity = vel;
+            print(this.transform.rotation.eulerAngles.z);
+            Vector3 thisAngle = this.transform.rotation.eulerAngles;
+            float newZ = 180 - thisAngle.z;
+            this.transform.rotation = Quaternion.Euler(0, 0, newZ);
+        }
+        */
+        if (col.gameObject.tag == "BasicEnemy" ||
             col.gameObject.tag == "HunterEnemy")
         {
             isDying = true;

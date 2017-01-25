@@ -9,8 +9,6 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private string objectName = "BasicEnemy";
     private MovementObj obj;
     private GameObject target;
-    public float chaseDistance = 1.2f;
-    private float chaseDistanceNormal = 1.2f;
     private float pulseTimer = 0;
     private float pulseTimerMax = 2.0f;
     private bool pulseFound = false;
@@ -24,12 +22,11 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public Color highlightColor;
     public Color regularColor;
     private float hunterTimer = 0;
-    private float hunterTimerMax = 0.6f;
+    private float hunterTimerMax = 1.2f;
 
     // Use this for initialization
     void Start()
     {
-        chaseDistanceNormal = chaseDistance;
         obj = GetComponent<MovementObj>();
         gameObject.AddComponent<TargetFinder>();
         obj.setMovementSpeed(moveSpeed);
@@ -51,8 +48,15 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
             //print(potentialTarget.name + " " + Vector3.Distance(transform.position, potentialTarget.transform.position));
             if (potentialTarget != null)
             {
-                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= chaseDistance)
+                float modifier = 1;
+                if(gameObject.tag == "HunterEnemy")
                 {
+                    modifier = 3f;
+                }
+                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <=
+                    potentialTarget.GetComponent<LightEmitter>().getDistance() * modifier )
+                {
+                    print("turning towards target");
                     target = potentialTarget;
                     turnTowardsEnemy();
                     obj.move(1);
@@ -62,6 +66,10 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                     target = null;
                     obj.brake();
                 }
+            }
+            else
+            {
+                obj.brake();
             }
         }
         else
@@ -69,7 +77,6 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
             pulseTimer += Time.deltaTime;
             if (pulseTimer >= pulseTimerMax)
             {
-                chaseDistance = chaseDistanceNormal;
                 pulseFound = false;
                 pulseTimer = 0;
                 target = null;
@@ -77,8 +84,15 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
             if (potentialTarget != null)
             {
-                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 2 * chaseDistance)
+                float modifier = 1;
+                if (gameObject.tag == "HunterEnemy")
                 {
+                    modifier = 3f;
+                }
+                if (Vector3.Distance(transform.position, potentialTarget.transform.position) <= 
+                    potentialTarget.GetComponent<LightEmitter>().getPulseDistance() * modifier)
+                {
+                    print("turning towards pulsed target");
                     target = potentialTarget;
                     turnTowardsEnemy();
                     obj.move(1);
@@ -88,6 +102,10 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                     target = null;
                     obj.brake();
                 }
+            }
+            else
+            {
+                obj.brake();
             }
         }
         if(lightFound)
@@ -119,7 +137,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         {
             if (target == null)
                 return;
-            if (Vector3.Distance(target.transform.position, transform.position) >= chaseDistance)
+            if (Vector3.Distance(target.transform.position, transform.position) >= 
+                target.GetComponent<LightEmitter>().getDistance() * 3f)
             {
                 return;
             }
@@ -197,7 +216,6 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     public void setPulse()
     {
         pulseFound = true;
-        chaseDistance *= 1.25f;
     }
 
     public void OnTriggerEnter2D(Collider2D col)
