@@ -20,6 +20,22 @@ public class UIlogic : MonoBehaviour {
             blk.normalColor = gameColor;
             obj.GetComponentInChildren<UnityEngine.UI.Button>().colors = blk;
         }
+        
+        int androidMode = UnityEngine.PlayerPrefs.GetInt("androidMode");
+        obj = GameObject.Find("PCOrAndroidButton");
+        if (obj != null)
+        {
+            if (androidMode == 0)
+            {
+                obj.GetComponentInChildren<UnityEngine.UI.Text>().text
+                    = "MODE: PC";
+            }
+            else
+            {
+                obj.GetComponentInChildren<UnityEngine.UI.Text>().text
+                    = "MODE: ANDRD";
+            }
+        }
     }
 
     public void loadScene(int index) {
@@ -89,5 +105,28 @@ public class UIlogic : MonoBehaviour {
                 break;
         }
         return gameColor;
+    }
+
+    public void toggleAndroidPCSupport()
+    {
+        int androidMode = UnityEngine.PlayerPrefs.GetInt("androidMode");
+        GameObject obj = GameObject.Find("PCOrAndroidButton");
+        if (obj != null)
+        {
+            if (androidMode == 0)
+            {
+                obj.GetComponentInChildren<UnityEngine.UI.Text>().text
+                    = "MODE: ANDRD";
+                androidMode = 1;
+            }
+            else
+            {
+                obj.GetComponentInChildren<UnityEngine.UI.Text>().text
+                    = "MODE: PC";
+                androidMode = 0;
+            }
+            UnityEngine.PlayerPrefs.SetInt("androidMode", androidMode);
+        }
+
     }
 }

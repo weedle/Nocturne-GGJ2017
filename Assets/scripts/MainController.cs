@@ -35,6 +35,28 @@ public class MainController : MonoBehaviour, ControllerIntf {
             .playMusic();
     }
 
+    private void turnTowardsCursor(Vector3 targetPosition)
+    {
+        Vector3 diff = targetPosition - transform.position;
+        //print(diff);
+        float targetAngle = Mathf.Atan(diff.y / diff.x) * 180 / Mathf.PI + 90;
+        if (diff.x > 0)
+            targetAngle = 180 + targetAngle;
+        targetAngle = (int)targetAngle;
+        float objAngle = transform.rotation.eulerAngles.z;
+        if (Math.Abs(objAngle - targetAngle) >= 5)
+        {
+            if (NocturneDefinitions.quickestRotation(objAngle, targetAngle))
+            {
+                obj.rotate(1f);
+            }
+            else
+            {
+                obj.rotate(-1f);
+            }
+        }
+    }
+
     // Update is called once per frame
     void Update()
     {
@@ -48,16 +70,7 @@ public class MainController : MonoBehaviour, ControllerIntf {
                 sparkleTimer += Time.deltaTime;
                 if (sparkleTimer >= sparkleTimerMax)
                 {
-                    for (int i = 0; i <= Mathf.FloorToInt(UnityEngine.Random.Range(0.5f,1.5f)); i++)
-                    {
-                        sparkleTimer = 0;
-                        Vector3 pos = transform.position;
-                        float randRange = 0.15f;
-                        Vector3 randVar = new Vector3(UnityEngine.Random.Range(-randRange, randRange),
-                                                    UnityEngine.Random.Range(-randRange, randRange));
-                        GameObject spark = (GameObject)Instantiate(sparkle, pos + randVar, Quaternion.Euler(0, 0, 0));
-                        spark.GetComponent<Sparkle>().spinrate = UnityEngine.Random.Range(2, 8);
-                    }
+                    genSparkles();
                 }
             }
             else
@@ -68,6 +81,53 @@ public class MainController : MonoBehaviour, ControllerIntf {
             if (horizontal != 0)
             {
                 obj.rotate(horizontal);
+            }
+            
+            int androidMode = UnityEngine.PlayerPrefs.GetInt("androidMode");
+            if (androidMode == 1)
+            {
+                if (Input.touchCount > 0)
+                {
+                    // Get movement of the finger since last frame
+                    Vector3 touchPos = Input.GetTouch(0).position;
+                    Vector3 targetPosition = new Vector3(touchPos.x, touchPos.y,
+            touchPos.z);
+                    targetPosition.z = 10.0f;
+                    targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
+                    targetPosition.z = transform.position.z;
+                    if (Input.GetTouch(0).phase == TouchPhase.Moved)
+                    {
+                        turnTowardsCursor(targetPosition);
+                        if (Vector3.Distance(transform.position, targetPosition) >= 2f)
+                        {
+                            obj.move(1);
+                        }
+                    }
+                }
+                if (Input.touchCount > 1)
+                {
+                    // Get movement of the finger since last frame
+                    Vector3 touchPos = Input.GetTouch(1).position;
+                    Vector3 targetPosition = new Vector3(touchPos.x, touchPos.y,
+            touchPos.z);
+                    targetPosition.z = 10.0f;
+                    targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
+                    targetPosition.z = transform.position.z;
+                    if (Vector3.Distance(transform.position, targetPosition) >= 2f)
+                    {
+                        GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                            .fireLaserSound();
+                        FiringModuleIntf mod = GetComponent<LaserFiringModule>();
+                        mod.fire();
+                    }
+                    else
+                    {
+                        FiringModuleIntf mod = GetComponent<RingFiringModule>();
+                        GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                            .fireRing();
+                        mod.fire();
+                    }
+                }
             }
         }
         else
@@ -130,6 +190,20 @@ public class MainController : MonoBehaviour, ControllerIntf {
         }
         if (deathTimer >= deathTimerFull)
             UnityEngine.SceneManagement.SceneManager.LoadScene(0);
+    }
+
+    private void genSparkles()
+    {
+        for (int i = 0; i <= Mathf.FloorToInt(UnityEngine.Random.Range(0.5f, 1.5f)); i++)
+        {
+            sparkleTimer = 0;
+            Vector3 pos = transform.position;
+            float randRange = 0.15f;
+            Vector3 randVar = new Vector3(UnityEngine.Random.Range(-randRange, randRange),
+                                        UnityEngine.Random.Range(-randRange, randRange));
+            GameObject spark = (GameObject)Instantiate(sparkle, pos + randVar, Quaternion.Euler(0, 0, 0));
+            spark.GetComponent<Sparkle>().spinrate = UnityEngine.Random.Range(2, 8);
+        }
     }
 
     public void setCantMove()
