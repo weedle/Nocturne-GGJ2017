@@ -23,6 +23,8 @@ public class MainController : MonoBehaviour, ControllerIntf {
     private float deathTimerFull = 1f;
     private bool isDying = false;
     private Color regularColor;
+    private float itemTimer = 0;
+    private float itemTimerMax = 0.5f;
 
     // Use this for initialization
     void Start()
@@ -104,23 +106,21 @@ public class MainController : MonoBehaviour, ControllerIntf {
                         }
                     }
                 }
-                if (Input.touchCount > 1)
+                if(itemTimer > 0)
                 {
-                    // Get movement of the finger since last frame
-                    Vector3 touchPos = Input.GetTouch(1).position;
-                    Vector3 targetPosition = new Vector3(touchPos.x, touchPos.y,
-            touchPos.z);
-                    targetPosition.z = 10.0f;
-                    targetPosition = Camera.main.ScreenToWorldPoint(targetPosition);
-                    targetPosition.z = transform.position.z;
-                    if (Vector3.Distance(transform.position, targetPosition) >= 2f)
+                    itemTimer -= Time.deltaTime;
+                }
+                if (itemTimer <= 0)
+                {
+                    itemTimer = itemTimerMax;
+                    if (Input.touchCount == 2)
                     {
-                        GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
-                            .fireLaserSound();
-                        FiringModuleIntf mod = GetComponent<LaserFiringModule>();
-                        mod.fire();
-                    }
-                    else
+                            GameObject.Find("GameLogic").GetComponent<GameEventHandler>()
+                                .fireLaserSound();
+                            FiringModuleIntf mod = GetComponent<LaserFiringModule>();
+                            mod.fire();
+                     }
+                    else if(Input.touchCount == 3)
                     {
                         FiringModuleIntf mod = GetComponent<RingFiringModule>();
                         GameObject.Find("GameLogic").GetComponent<GameEventHandler>()

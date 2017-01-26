@@ -6,19 +6,21 @@ public class GameEventHandler : MonoBehaviour {
     public AudioClip clipSonar;
     public AudioClip clipMusic;
     bool soundLoaded = false;
+    AudioSource src;
+
     void Start()
     {
-
+        src = GetComponent<AudioSource>();
     }
 
     public void fireLaserSound()
     {
-        GetComponent<AudioSource>().PlayOneShot(clipLaser);
+        src.PlayOneShot(clipLaser);
     }
 
     public void fireRing()
     {
-        GetComponent<AudioSource>().PlayOneShot(clipSonar);
+        src.PlayOneShot(clipSonar);
     }
 
     public void playMusic()
@@ -39,9 +41,5 @@ public class GameEventHandler : MonoBehaviour {
     private void printTest()
     {
         print("printTest called!");
-    }
-
-    public void playSound1()
-    {
     }
 }
