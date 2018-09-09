@@ -12,13 +12,16 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private float pulseTimer = 0;
     private float pulseTimerMax = 2.0f;
     private bool pulseFound = false;
+
     private float lightTimer = 0;
     private float lightTimerMax = 0.1f;
     private bool lightFound = false;
+
     public float moveSpeed;
     public float rotationSpeed;
     public float boostedMoveSpeed;
     public float boostedRotationSpeed;
+
     public Color highlightColor;
     public Color regularColor;
     private float hunterTimer = 0;
@@ -41,8 +44,8 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
 
     // Update is called once per frame
     void Update()
-    {
-        if (!pulseFound)
+    {   
+        if (!pulseFound)        // detected player pulse
         {
             GameObject potentialTarget = GetComponent<TargetFinder>().getTarget();
             //print(potentialTarget.name + " " + Vector3.Distance(transform.position, potentialTarget.transform.position));
@@ -71,7 +74,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 obj.brake();
             }
         }
-        else
+        else        // did not detect player pulse
         {
             pulseTimer += Time.deltaTime;
             if (pulseTimer >= pulseTimerMax)
@@ -106,6 +109,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
                 obj.brake();
             }
         }
+
         if(lightFound)
         {
             lightTimer += Time.deltaTime;
@@ -170,6 +174,99 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         }
     }
 
+    // TODO: pause enemy
+    void ControllerIntf.pause()
+    {
+        throw new NotImplementedException();
+    }
+
+    // TODO: unpause enemy
+    void ControllerIntf.unpause()
+    {
+        throw new NotImplementedException();
+    }
+
+    // TODO: should this function still be kept? (currently has 0 references)
+    public void OnTriggerEnter2D(Collider2D col)
+    {
+        boost();
+        /*
+        Light light = GetComponent<Light>();
+        light.enabled = true;
+        light.color = new Color(10, 0, 0, 10);
+        lightFound = true;
+        */
+    }
+
+
+    // USAGE: changes enemy to "pursuit" state properties (i.e. faster movement, color change)
+    public void boost()
+    {
+        lightFound = true;
+        GetComponent<SpriteRenderer>().color = highlightColor;
+        obj.setMovementSpeed(boostedMoveSpeed);
+        obj.setRotationSpeed(boostedRotationSpeed);
+    }
+
+    /*
+    // USAGE: emit "plus" / "cross" lighting pattern to indicate enemy location
+    private void drawPlus()
+    {
+        Color flash = Color.red;
+        //flash.r -= 0.5f;            // mutes red color ...
+        Vector3 start = transform.position;
+        Vector3 end = transform.position;
+
+        Vector3 randVariation = UnityEngine.Random.insideUnitCircle * 0.02f; 
+        float width = 10f;  // "length" of the line
+
+        Debug.Log(string.Concat("start", start.ToString("F4")));
+        Debug.Log(string.Concat("end", end.ToString("F4")));
+        Debug.Log(string.Concat("variation", randVariation.ToString("F4")));
+
+        // draw horizontal cross axis
+        start += randVariation;
+        end += randVariation;
+        start.x -= width;
+        end.x += width;
+        NocturneDefinitions.DrawLine(start, end, flash);
+
+        Debug.Log(string.Concat("start modified", start.ToString("F4")));
+        Debug.Log(string.Concat("end modified", end.ToString("F4")));
+        
+        // draw vertical cross axis
+        start = transform.position;
+        end = transform.position;
+        start += randVariation;
+        end += randVariation;
+        start.y -= width;
+        end.y += width;
+        NocturneDefinitions.DrawLine(start, end, flash);
+    }
+    */
+
+    // USAGE: emit "plus" / "cross" lighting pattern to indicate enemy location
+    // WARNING: modified version of drawPlus() above; needs to be checked
+    private void drawPlus(){
+        Color flash = Color.red;
+        float axisWidth = 10f;
+
+        Vector3 axisStart = transform.position;
+        Vector3 axisEnd = transform.position;
+
+        // draw horizontal cross axis
+        axisStart.x -= axisWidth;
+        axisEnd.x += axisWidth;
+        NocturneDefinitions.DrawLine(axisStart, axisEnd, flash);
+
+        // draw vertical cross axis
+        axisStart = axisEnd = transform.position;
+        axisStart.y -= axisWidth;
+        axisEnd.y += axisWidth;
+        NocturneDefinitions.DrawLine(axisStart, axisEnd, flash);
+    }
+
+    
     // The basic enemy is of the Enemy faction
     NocturneDefinitions.Faction ControllerIntf.getFaction()
     {
@@ -188,7 +285,7 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         return target;
     }
 
-    // you cannot change the affiliation of the Basic Enemy
+    // NOTE: you cannot change the affiliation of the Basic Enemy
     void ControllerIntf.setFaction(NocturneDefinitions.Faction faction)
     {
         return;
@@ -200,60 +297,9 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
         target = newTarget;
     }
 
-    void ControllerIntf.pause()
-    {
-        throw new NotImplementedException();
-    }
-
-
-    void ControllerIntf.unpause()
-    {
-        throw new NotImplementedException();
-    }
-
     public void setPulse()
     {
         pulseFound = true;
     }
 
-    public void OnTriggerEnter2D(Collider2D col)
-    {
-        boost();
-        /*
-        Light light = GetComponent<Light>();
-        light.enabled = true;
-        light.color = new Color(10, 0, 0, 10);
-        lightFound = true;
-        */
-    }
-
-    public void boost()
-    {
-        lightFound = true;
-        GetComponent<SpriteRenderer>().color = highlightColor;
-        obj.setMovementSpeed(boostedMoveSpeed);
-        obj.setRotationSpeed(boostedRotationSpeed);
-    }
-
-    private void drawPlus()
-    {
-        Color flash = Color.red;
-        flash.r -= 0.5f;
-        Vector3 start = transform.position;
-        Vector3 end = transform.position;
-        Vector3 randVariation = UnityEngine.Random.insideUnitCircle * 0.02f;
-        float width = 10f;
-        start += randVariation;
-        end += randVariation;
-        start.x -= width;
-        end.x += width;
-        NocturneDefinitions.DrawLine(start, end, flash);
-        start = transform.position;
-        end = transform.position;
-        start += randVariation;
-        end += randVariation;
-        start.y -= width;
-        end.y += width;
-        NocturneDefinitions.DrawLine(start, end, flash);
-    }
 }

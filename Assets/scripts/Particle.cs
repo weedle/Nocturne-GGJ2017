@@ -29,7 +29,7 @@ public abstract class Particle : MonoBehaviour
         velKeep = rbody.velocity;
         rbody.velocity = Vector2.zero;
         if(GetComponent<Animator>() != null)
-            GetComponent<Animator>().Stop();
+            GetComponent<Animator>().enabled = false;
     }
 
 	/*

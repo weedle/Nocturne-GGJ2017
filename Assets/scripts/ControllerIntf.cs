@@ -3,10 +3,11 @@ using System.Collections;
 
 // Interface for a Controller
 // Available controllers are MainController for the player and
-// AIController for the enemies or npcs
+
+// USAGE: controller interface for enemies or NPCs
 public interface ControllerIntf {
 
-    // return the affiliation of this product
+    // return the affiliation of this entity
     NocturneDefinitions.Faction getFaction();
 
     // set the affiliation of this entity

@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using System.Collections;
 
-// Contains common definitions used throughout the project
+// USAGE: common definitions used throughout the project
 public class NocturneDefinitions {
 
-    // The affiliation of a given character
+    // The affiliation of a given entity
 	public enum Faction
     {
         Player, NPC, Enemy
@@ -32,20 +32,23 @@ public class NocturneDefinitions {
         }
     }
 
-    // Draw a line! Parameters are self-explanatory
+    // USAGE: Draw a line! Parameters are self-explanatory
     // IT'S SELF-DOCUMENTING CODE :DDD
     public static void DrawLine(Vector3 start, Vector3 end, Color color, float duration = 0.1f, float width = 0.04f)
     {
         GameObject myLine = new GameObject();
-        myLine.layer = SortingLayer.GetLayerValueFromName("Default2");
+
+        myLine.layer = SortingLayer.GetLayerValueFromName("Default2");  // WARNING: do we actually have a layer called "Default2" ???
         myLine.transform.position = start;
         myLine.AddComponent<LineRenderer>();
         LineRenderer lr = myLine.GetComponent<LineRenderer>();
         lr.material = new Material(Shader.Find("Particles/Alpha Blended Premultiply"));
-        lr.SetColors(color, color);
-        lr.SetWidth(width, width);
+
+        lr.startColor = lr.endColor = color;
+        lr.startWidth = lr.endWidth = width;
         lr.SetPosition(0, start);
         lr.SetPosition(1, end);
+
         if (duration != 0)
             GameObject.Destroy(myLine, duration);
     }

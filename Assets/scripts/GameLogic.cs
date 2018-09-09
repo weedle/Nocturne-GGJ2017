@@ -2,23 +2,22 @@
 using System.Collections;
 using UnityEngine.UI;
 
+
+// USAGE: game logic; handles setup, initial and end states
 public class GameLogic : MonoBehaviour {
-	public Button button;
+	public Button visibilityToggle;
 	public Color testColor = Color.white;
 	public Color gameColor = Color.black;
     public bool usePreferredColor = false;
 	private bool visible = true;
 
+    // objectives
     public bool gotCollectible1 = false;
     public bool gotCollectible2 = false;
     public bool gotCollectible3 = false;
 
-    public Color getGameColor()
-    {
-        return gameColor;
-    }
 
-    // Use this for initialization
+    // USAGE: game initialization + user settings
     void Start ()
     {
         Color camColor = new Color(gameColor.r / 2.05f, gameColor.g / 2.05f, gameColor.b / 2.05f);
@@ -46,13 +45,15 @@ public class GameLogic : MonoBehaviour {
                     break;
             }
         }
+        
         switchVisible ();
-		button.onClick.AddListener (switchVisible);
+		visibilityToggle.onClick.AddListener (switchVisible);
+
         GameObject.Find("Main Camera").GetComponent<Camera>()
             .backgroundColor = camColor;
     }
 	
-	// Update is called once per frame
+	// USAGE: checks for end state
 	void Update () {
 		if(gotCollectible1 && gotCollectible2 && gotCollectible3)
         {
@@ -61,43 +62,45 @@ public class GameLogic : MonoBehaviour {
 	}
 
 
+    // USAGE: switch between "invisible" mode (unhide walls, enemies) and "regular" mode (hidden walls, enemies)
 	public void switchVisible() {
-		GameObject[] wallList = GameObject.FindGameObjectsWithTag ("Wall");
+        
+        Debug.Log("hello world");
 
-		foreach (GameObject wall in wallList) {
-			SpriteRenderer thisWall = wall.GetComponent<SpriteRenderer> ();
-			if (!visible) {
-				thisWall.color = testColor;
-			} else {
-				thisWall.color = gameColor;
-			}
-		}
+        Color mainColor;
+        if(visible){
+            mainColor = gameColor;
+        }else{
+            mainColor = testColor;
+        }
 
-        GameObject[] enemyList = GameObject.FindGameObjectsWithTag("BasicEnemy");
-        setColor(enemyList);
+        GameObject[] spriteList = GameObject.FindGameObjectsWithTag ("Wall");
+        switchSpriteColor(spriteList, mainColor);
 
+        spriteList = GameObject.FindGameObjectsWithTag("BasicEnemy");
+        switchSpriteColor(spriteList, mainColor);
 
-        enemyList = GameObject.FindGameObjectsWithTag("HunterEnemy");
-        setColor(enemyList);
+        spriteList = GameObject.FindGameObjectsWithTag("HunterEnemy");
+        switchSpriteColor(spriteList, mainColor);
 
-        visible = !visible;
+        visible = !visible; 
 	}
 
-    void setColor(GameObject[] enemyList)
-    {
-        foreach (GameObject enemy in enemyList)
-        {
-            SpriteRenderer thisEnemy = enemy.GetComponent<SpriteRenderer>();
-            if (!visible)
-            {
-                thisEnemy.color = testColor;
-                enemy.GetComponent<BasicEnemyController>().regularColor = testColor;
-            }
-            else {
-                thisEnemy.color = gameColor;
-                enemy.GetComponent<BasicEnemyController>().regularColor = gameColor;
+    // USAGE: change list of sprites to specified color
+    void switchSpriteColor(GameObject[] spriteList, Color c){
+
+        foreach(GameObject obj in spriteList){
+            SpriteRenderer thisobj = obj.GetComponent<SpriteRenderer>();
+            thisobj.color = c;
+
+            if(thisobj.tag == "BasicEnemy" || thisobj.tag == "HunterEnemy"){
+                obj.GetComponent<BasicEnemyController>().regularColor = c;
             }
         }
     }
 
+    public Color getGameColor()
+    {
+        return gameColor;
+    }
 }
