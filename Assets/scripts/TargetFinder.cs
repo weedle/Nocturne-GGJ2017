@@ -2,7 +2,7 @@
 using System.Collections;
 using System;
 
-// TargetFinder for this project finds us a nearby Light Emitter
+// USAGE: Component used to finds nearby light emitter (target)
 public class TargetFinder : MonoBehaviour {
 
     public GameObject GetClosestLight()

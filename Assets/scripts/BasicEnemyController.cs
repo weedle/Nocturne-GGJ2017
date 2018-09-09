@@ -27,14 +27,16 @@ public class BasicEnemyController : MonoBehaviour, ControllerIntf
     private float hunterTimer = 0;
     private float hunterTimerMax = 1.2f;
 
-    // Use this for initialization
+    // USAGE: initialize enemy controller
     void Start()
     {
         obj = GetComponent<MovementObj>();
-        gameObject.AddComponent<TargetFinder>();
         obj.setMovementSpeed(moveSpeed);
         obj.setRotationSpeed(rotationSpeed);
         obj.setTrigger(true);
+
+        gameObject.AddComponent<TargetFinder>();
+        
         target = null;
         regularColor = GetComponent<SpriteRenderer>().color;
         GetComponent<SpriteRenderer>().color = GameObject.Find("GameLogic").

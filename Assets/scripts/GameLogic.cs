@@ -64,8 +64,6 @@ public class GameLogic : MonoBehaviour {
 
     // USAGE: switch between "invisible" mode (unhide walls, enemies) and "regular" mode (hidden walls, enemies)
 	public void switchVisible() {
-        
-        Debug.Log("hello world");
 
         Color mainColor;
         if(visible){
@@ -75,25 +73,25 @@ public class GameLogic : MonoBehaviour {
         }
 
         GameObject[] spriteList = GameObject.FindGameObjectsWithTag ("Wall");
-        switchSpriteColor(spriteList, mainColor);
+        switchSpriteColor(spriteList, mainColor, "Wall");
 
         spriteList = GameObject.FindGameObjectsWithTag("BasicEnemy");
-        switchSpriteColor(spriteList, mainColor);
+        switchSpriteColor(spriteList, mainColor, "BasicEnemy");
 
         spriteList = GameObject.FindGameObjectsWithTag("HunterEnemy");
-        switchSpriteColor(spriteList, mainColor);
+        switchSpriteColor(spriteList, mainColor, "HunterEnemy");
 
         visible = !visible; 
 	}
 
     // USAGE: change list of sprites to specified color
-    void switchSpriteColor(GameObject[] spriteList, Color c){
+    void switchSpriteColor(GameObject[] spriteList, Color c, string tag){
 
         foreach(GameObject obj in spriteList){
             SpriteRenderer thisobj = obj.GetComponent<SpriteRenderer>();
             thisobj.color = c;
 
-            if(thisobj.tag == "BasicEnemy" || thisobj.tag == "HunterEnemy"){
+            if(tag == "BasicEnemy" || tag == "HunterEnemy"){
                 obj.GetComponent<BasicEnemyController>().regularColor = c;
             }
         }

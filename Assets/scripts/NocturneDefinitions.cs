@@ -10,6 +10,7 @@ public class NocturneDefinitions {
         Player, NPC, Enemy
     }
 
+    
     // find quickest path for thing at angle1 to reach angle2
     // if true, turn clockwise, otherwise turn counterclockwise
     public static bool quickestRotation(float angle1, float angle2)
@@ -53,7 +54,7 @@ public class NocturneDefinitions {
             GameObject.Destroy(myLine, duration);
     }
 
-	// Use the DrawLine method to draw a square
+	// Use the DrawLine method to draw a square         // WARNING: currently not used anywhere ... 
 	public static void DrawSquare(Vector3 bottomLeft, Vector3 topRight, Color color, float duration = 0.2f, float width = 0.075f)
 	{
 		Vector3 bottomRight = new Vector3(topRight.x, bottomLeft.y);

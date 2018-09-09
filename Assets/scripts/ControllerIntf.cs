@@ -26,7 +26,7 @@ public interface ControllerIntf {
     // the player will always return null
     GameObject getTarget();
 
-    // set the target of the entity
-    // will do nothing for the player
+    // set the target of the entity 
+    // NOTE: will do nothing for a player entity
     void setTarget(GameObject newTarget);
 }
